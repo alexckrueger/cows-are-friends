@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, except: [:create]
+  before_action :authenticate_user, except: [:create, :show]
 
   def create
     user = User.new(
@@ -16,7 +16,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    user = User.find(current_user.id)
+    user = User.find(params[:id])
     render json: user
   end
 
