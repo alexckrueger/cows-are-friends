@@ -1,8 +1,9 @@
 class ReviewsController < ApplicationController
+  before_action :authenticate_user
 
   def create
     review = Review.new(
-      user_id: params[:user_id],
+      user_id: current_user.id,
       business_id: params[:business_id],
       overall_rating: params[:overall_rating],
       veggie_options_rating: params[:veggie_options_rating],
