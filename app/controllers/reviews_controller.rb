@@ -21,22 +21,30 @@ class ReviewsController < ApplicationController
 
   def update
     review = Review.find(params[:id])
-    review.overall_rating = params[:overall_rating] || review.overall_rating
-    review.veggie_options_rating = params[:veggie_options_rating] || review.veggie_options_rating
-    review.veggie_friendly_menu_rating = params[:veggie_friendly_menu_rating] || review.veggie_friendly_menu_rating
-    review.recommended_dishes = params[:recommended_dishes] || review.recommended_dishes
-    review.comment = params[:comment] || review.comment
-    review.image_url = params[:image_url] || review.image_url
-    if review.save
-      render json: review
+    if review.user_id == current_user.id
+      review.overall_rating = params[:overall_rating] || review.overall_rating
+      review.veggie_options_rating = params[:veggie_options_rating] || review.veggie_options_rating
+      review.veggie_friendly_menu_rating = params[:veggie_friendly_menu_rating] || review.veggie_friendly_menu_rating
+      review.recommended_dishes = params[:recommended_dishes] || review.recommended_dishes
+      review.comment = params[:comment] || review.comment
+      review.image_url = params[:image_url] || review.image_url
+      if review.save
+        render json: review
+      else
+        render json: {errors: review.errors.full_messages}
+      end
     else
-      render json: {errors: review.errors.full_messages}
+      render json: {}, status: :unauthorized
     end
   end
 
   def destroy
-    Review.find(params[:id]).destroy
-    render json: {message: "Review successfully destroyed!"}
+    if owner
+      Review.find(params[:id]).destroy
+      render json: {message: "Review successfully destroyed!"}
+    else
+      render json: {}, status: :unauthorized
+    end
   end
 
 end
