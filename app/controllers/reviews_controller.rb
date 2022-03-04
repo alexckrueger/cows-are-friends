@@ -2,20 +2,24 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user
 
   def create
-    review = Review.new(
-      user_id: current_user.id,
-      business_id: params[:business_id],
-      overall_rating: params[:overall_rating],
-      veggie_options_rating: params[:veggie_options_rating],
-      veggie_friendly_menu_rating: params[:veggie_friendly_menu_rating],
-      recommended_dishes: params[:recommended_dishes],
-      comment: params[:comment],
-      image_url: params[:image_url]
-    )
-    if review.save
-      render json: review, status: :created
+    if Review.exists?(user_id: current_user.id, business_id: params[:business_id])
+      render json: {errors: "You've already left a review of this business"}
     else
-      render json: { errors: review.errors.full_messages }, status: :bad_request
+      review = Review.new(
+        user_id: current_user.id,
+        business_id: params[:business_id],
+        overall_rating: params[:overall_rating],
+        veggie_options_rating: params[:veggie_options_rating],
+        veggie_friendly_menu_rating: params[:veggie_friendly_menu_rating],
+        recommended_dishes: params[:recommended_dishes],
+        comment: params[:comment],
+        image_url: params[:image_url]
+      )
+      if review.save
+        render json: review, status: :created
+      else
+        render json: { errors: review.errors.full_messages }, status: :bad_request
+      end
     end
   end
 
