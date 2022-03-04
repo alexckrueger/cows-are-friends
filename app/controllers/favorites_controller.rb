@@ -2,7 +2,7 @@ class FavoritesController < ApplicationController
   before_action :authenticate_user
   
   def index
-    favorites = Favorite.where(user_id: current_user.id)
+    favorites = current_user.favorites
     render json: favorites
   end
 
@@ -11,10 +11,11 @@ class FavoritesController < ApplicationController
       user_id: current_user.id,
       business_id: params[:business_id]
     )
-    if favorite.save
+    if Favorite.exists?(user_id: current_user.id, business_id: params[:business_id])
+      render json: { message: "You've already favorited this you doofus" }, status: :bad_request
+    else 
+      favorite.save
       render json: favorite, status: :created
-    else
-      render json: { errors: favorite.errors.full_messages }, status: :bad_request
     end
   end
 

@@ -2,9 +2,9 @@ Rails.application.routes.draw do
   post "/users" => "users#create"
   post "/sessions" => "sessions#create"
 
-  get "/users/:id" => "users#show"
-  patch "/users/:id" => "users#update"
-  delete "/users/:id" => "users#destroy"
+  get "/users/me" => "users#show"
+  patch "/users/me" => "users#update"
+  delete "/users/me" => "users#destroy"
 
   post "/reviews" => "reviews#create"
   patch "/reviews/:id" => "reviews#update"

@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user, except: [:create, :show]
+  before_action :authenticate_user, except: [:create]
 
   def create
     user = User.new(
@@ -9,19 +9,18 @@ class UsersController < ApplicationController
       password_confirmation: params[:password_confirmation]
     )
     if user.save
-      render json: { message: "User created successfully" }, status: :created
+      render json: user, status: :created
     else
       render json: { errors: user.errors.full_messages }, status: :bad_request
     end
   end
 
   def show
-    user = User.find(params[:id])
-    render json: user
+    render json: current_user
   end
 
   def update
-    user = User.find(current_user.id)
+    user = current_user
     user.name = params[:name] || user.name
     user.image_url = params[:image_url] || user.image_url
     if user.save
@@ -32,7 +31,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(current_user.id).destroy
+    current_user.destroy
     render json: {message: "User successfully destroyed!"}
   end
 end

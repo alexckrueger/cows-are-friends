@@ -39,8 +39,9 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    if owner
-      Review.find(params[:id]).destroy
+    review = Review.find(params[:id])
+    if review.user == current_user
+      review.destroy
       render json: {message: "Review successfully destroyed!"}
     else
       render json: {}, status: :unauthorized
