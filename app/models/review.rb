@@ -3,6 +3,7 @@ class Review < ApplicationRecord
   validates :overall_rating, numericality: { in: 1..5 }
   validates :veggie_options_rating, numericality: { in: 1..5 }
   validates :veggie_friendly_menu_rating, numericality: { in: 1..5 }
+  validates :recommended_dishes, length: { maximum: 80 }
   validates :comment, length: { in: 8..200 }
 
   def business
