@@ -8,7 +8,7 @@ class Favorite < ApplicationRecord
       categories << category["title"]
     end
     return {
-      business_id: response["id"],
+      id: response["id"],
       name: response["name"],
       image_url: response["image_url"],
       address: response["location"]["display_address"],
