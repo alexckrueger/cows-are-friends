@@ -31,7 +31,9 @@ class BusinessesController < ApplicationController
     # Check if current_user favorited/reviewed this business
     if current_user
       business[:favorited] = Favorite.exists?(user_id: current_user.id, business_id: business["id"])
-      business[:favorited_id] = Favorite.find_by(user_id: current_user.id, business_id: business["id"]).id
+      if Favorite.exists?(user_id: current_user.id, business_id: business["id"])
+        business[:favorited_id] = Favorite.find_by(user_id: current_user.id, business_id: business["id"]).id
+      end
       business[:reviewed] = Review.exists?(user_id: current_user.id, business_id: business["id"])
     end
     
