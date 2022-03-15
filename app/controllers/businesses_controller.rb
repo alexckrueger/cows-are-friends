@@ -8,10 +8,12 @@ class BusinessesController < ApplicationController
     # Load reviews from database for each business
     businesses.each do |business|
       reviews = Review.where(business_id: business["id"])
-      business[:overall_rating] = reviews.average(:overall_rating)
-      business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating)
-      business[:veggie_options_rating] = reviews.average(:veggie_options_rating)
       business[:review_count] = reviews.count
+      if reviews.length > 0
+        business[:overall_rating] = reviews.average(:overall_rating).round(2)
+        business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating).round(2)
+        business[:veggie_options_rating] = reviews.average(:veggie_options_rating).round(2)
+      end
     end
     
     render json: businesses
@@ -25,12 +27,13 @@ class BusinessesController < ApplicationController
     reviews = Review.where(business_id: business["id"])
     serialized_reviews = ActiveModelSerializers::SerializableResource.new(reviews).as_json
     business[:reviews] = serialized_reviews
-    business[:overall_rating] = reviews.average(:overall_rating)
-    business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating)
-    business[:veggie_options_rating] = reviews.average(:veggie_options_rating)
     business[:review_count] = reviews.count
+    if reviews.length > 0
+      business[:overall_rating] = reviews.average(:overall_rating).round(2)
+      business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating).round(2)
+      business[:veggie_options_rating] = reviews.average(:veggie_options_rating).round(2)     
+    end
   
-
     # Check if current_user favorited/reviewed this business
     if current_user
       business[:favorited] = Favorite.exists?(user_id: current_user.id, business_id: business["id"])
