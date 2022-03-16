@@ -24,7 +24,7 @@ class BusinessesController < ApplicationController
     business = HTTP.auth("Bearer " + Rails.application.credentials.yelp_api_key).get("https://api.yelp.com/v3/businesses/#{params[:id]}").parse(:json)
 
     # Loads each review 
-    reviews = Review.where(business_id: business["id"])
+    reviews = Review.where(business_id: business["id"]).order(created_at: :desc)
     serialized_reviews = ActiveModelSerializers::SerializableResource.new(reviews).as_json
     business[:reviews] = serialized_reviews
     business[:review_count] = reviews.count
