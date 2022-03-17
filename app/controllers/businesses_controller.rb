@@ -3,7 +3,12 @@ class BusinessesController < ApplicationController
     if params[:search]
       params[:search].gsub!(" ", "%20")
     end
-    businesses = HTTP.auth("Bearer " + Rails.application.credentials.yelp_api_key).get("https://api.yelp.com/v3/businesses/search?location=Chicago&categories=restaurants&term=#{params[:search]}").parse(:json)["businesses"]
+    if params[:location]
+      params[:location].gsub!(" ", "%20")
+    else
+      params[:location] = "Chicago"
+    end
+    businesses = HTTP.auth("Bearer " + Rails.application.credentials.yelp_api_key).get("https://api.yelp.com/v3/businesses/search?location=#{params[:location]}&categories=restaurants&term=#{params[:search]}").parse(:json)["businesses"]
     
     # Load reviews from database for each business
     businesses.each do |business|
