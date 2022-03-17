@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   delete "/users/me" => "users#destroy"
 
   post "/reviews" => "reviews#create"
-  patch "/reviews/:id" => "reviews#update"
   delete "/reviews/:id" => "reviews#destroy"
 
   get "/favorites" => "favorites#index"

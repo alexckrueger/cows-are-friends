@@ -11,7 +11,9 @@ class BusinessesController < ApplicationController
       business[:review_count] = reviews.count
       if reviews.length > 0
         business[:overall_rating] = reviews.average(:overall_rating).round(2)
-        business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating).round(2)
+        business[:menu_vegetarian_labels] = reviews.average(:menu_vegetarian_labels).round(2)
+        business[:menu_vegan_labels] = reviews.average(:menu_vegan_labels).round(2)
+        business[:menu_gluten_free_labels] = reviews.average(:menu_gluten_free_labels).round(2)
         business[:veggie_options_rating] = reviews.average(:veggie_options_rating).round(2)
       end
     end
@@ -30,7 +32,9 @@ class BusinessesController < ApplicationController
     business[:review_count] = reviews.count
     if reviews.length > 0
       business[:overall_rating] = reviews.average(:overall_rating).round(2)
-      business[:veggie_friendly_menu_rating] = reviews.average(:veggie_friendly_menu_rating).round(2)
+      business[:menu_vegetarian_labels] = reviews.average(:menu_vegetarian_labels).round(2)
+      business[:menu_vegan_labels] = reviews.average(:menu_vegan_labels).round(2)
+      business[:menu_gluten_free_labels] = reviews.average(:menu_gluten_free_labels).round(2)
       business[:veggie_options_rating] = reviews.average(:veggie_options_rating).round(2)     
     end
   

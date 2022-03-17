@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_27_013611) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_17_011438) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,12 +26,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_27_013611) do
     t.string "business_id"
     t.integer "overall_rating"
     t.integer "veggie_options_rating"
-    t.integer "veggie_friendly_menu_rating"
     t.text "recommended_dishes"
     t.text "comment"
     t.string "image_url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "menu_vegetarian_labels"
+    t.integer "menu_vegan_labels"
+    t.integer "menu_gluten_free_labels"
   end
 
   create_table "users", force: :cascade do |t|

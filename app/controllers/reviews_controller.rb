@@ -10,7 +10,9 @@ class ReviewsController < ApplicationController
         business_id: params[:business_id],
         overall_rating: params[:overall_rating],
         veggie_options_rating: params[:veggie_options_rating],
-        veggie_friendly_menu_rating: params[:veggie_friendly_menu_rating],
+        menu_vegetarian_labels: params[:menu_vegetarian_labels],
+        menu_vegan_labels: params[:menu_vegan_labels],
+        menu_gluten_free_labels: params[:menu_gluten_free_labels],
         recommended_dishes: params[:recommended_dishes],
         comment: params[:comment],
         image_url: params[:image_url]
@@ -20,25 +22,6 @@ class ReviewsController < ApplicationController
       else
         render json: { errors: review.errors.full_messages }, status: :bad_request
       end
-    end
-  end
-
-  def update
-    review = Review.find(params[:id])
-    if review.user_id == current_user.id
-      review.overall_rating = params[:overall_rating] || review.overall_rating
-      review.veggie_options_rating = params[:veggie_options_rating] || review.veggie_options_rating
-      review.veggie_friendly_menu_rating = params[:veggie_friendly_menu_rating] || review.veggie_friendly_menu_rating
-      review.recommended_dishes = params[:recommended_dishes] || review.recommended_dishes
-      review.comment = params[:comment] || review.comment
-      review.image_url = params[:image_url] || review.image_url
-      if review.save
-        render json: review
-      else
-        render json: {errors: review.errors.full_messages}
-      end
-    else
-      render json: {}, status: :unauthorized
     end
   end
 

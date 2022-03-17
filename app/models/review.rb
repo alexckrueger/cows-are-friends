@@ -2,7 +2,9 @@ class Review < ApplicationRecord
   belongs_to :user
   validates :overall_rating, numericality: { in: 1..5 }
   validates :veggie_options_rating, numericality: { in: 1..5 }
-  validates :veggie_friendly_menu_rating, numericality: { in: 1..5 }
+  validates :menu_vegetarian_labels, presence: true
+  validates :menu_vegan_labels, presence: true
+  validates :menu_gluten_free_labels, presence: true
   validates :recommended_dishes, length: { maximum: 80 }
   validates :comment, length: { in: 8..200 }
 
