@@ -1,11 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user
 
-  def index
-    reviews = Review.where(user_id: current_user.id)
-    render json: reviews
-  end
-
   def create
     if Review.exists?(user_id: current_user.id, business_id: params[:business_id])
       render json: {errors: "You've already left a review of this business"}
