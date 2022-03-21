@@ -1,6 +1,11 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user
 
+  def index
+    reviews = Review.where(user_id: current_user.id)
+    render json: reviews
+  end
+
   def create
     if Review.exists?(user_id: current_user.id, business_id: params[:business_id])
       render json: {errors: "You've already left a review of this business"}
@@ -22,6 +27,33 @@ class ReviewsController < ApplicationController
       else
         render json: { errors: review.errors.full_messages }, status: :bad_request
       end
+    end
+  end
+
+  def show
+    review = Review.find(params[:id])
+    if review.user_id == current_user.id
+      render json: review
+    else
+      render json: {}, status: :unauthorized
+    end
+  end
+
+  def update
+    review = Review.find(params[:id])
+    if review.user_id == current_user.id
+      review.overall_rating = params[:overall_rating] || review.overall_rating
+      review.veggie_options_rating = params[:veggie_options_rating] || review.veggie_options_rating
+      review.recommended_dishes = params[:recommended_dishes] || review.recommended_dishes
+      review.comment = params[:comment] || review.comment
+      review.image_url = params[:image_url] || review.image_url
+      if review.save
+        render json: review
+      else
+        render json: {errors: review.errors.full_messages}
+      end
+    else
+      render json: {}, status: :unauthorized
     end
   end
 
