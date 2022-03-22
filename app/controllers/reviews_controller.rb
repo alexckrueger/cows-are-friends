@@ -44,6 +44,9 @@ class ReviewsController < ApplicationController
     if review.user_id == current_user.id
       review.overall_rating = params[:overall_rating] || review.overall_rating
       review.veggie_options_rating = params[:veggie_options_rating] || review.veggie_options_rating
+      review.menu_vegetarian_labels = params[:menu_vegetarian_labels] || review.menu_vegetarian_labels
+      review.menu_vegan_labels = params[:menu_vegan_labels] || review.menu_vegan_labels
+      review.menu_gluten_free_labels = params[:menu_gluten_free_labels] || review.menu_gluten_free_labels
       review.recommended_dishes = params[:recommended_dishes] || review.recommended_dishes
       review.comment = params[:comment] || review.comment
       review.image_url = params[:image_url] || review.image_url
