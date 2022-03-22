@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   patch "/users/me" => "users#update"
   delete "/users/me" => "users#destroy"
 
+  get "/reviews" => "reviews#index"
   post "/reviews" => "reviews#create"
   get "/reviews/:id" => "reviews#show"
   patch "/reviews/:id" => "reviews#update"
