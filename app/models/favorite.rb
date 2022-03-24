@@ -13,7 +13,6 @@ class Favorite < ApplicationRecord
       id: response["id"],
       name: response["name"],
       image_url: response["image_url"],
-      address: response["location"]["display_address"],
       categories: categories
     }
   end
